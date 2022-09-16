@@ -12,4 +12,4 @@ local composer = require( "composer" )
 
 
 -- Change scene to first curve
-composer.gotoScene("curve1")
+composer.gotoScene("mainMenu")
