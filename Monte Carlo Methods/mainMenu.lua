@@ -11,12 +11,21 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 
 
-local function buttonPress( event )
+local function curve1ButtonPress( event )
     
     
-    timer.performWithDelay(1)
+    timer.performWithDelay(200)
     print("button pressed changing scene")
     composer.gotoScene("curve1");
+    composer.removeScene("mainMenu", true)
+end
+
+local function curve2ButtonPress( event )
+    
+    
+    timer.performWithDelay(200)
+    print("button pressed changing scene")
+    composer.gotoScene("curve2");
     composer.removeScene("mainMenu", true)
 end
 
@@ -29,29 +38,50 @@ function scene:create( event )
 
     -- Simple test for displaying menu text
     local sceneText = display.newText("Main Menu", display.contentCenterX, display.contentCenterY - 200, "Arial", "40");
+
+
+    -- Button for curve 1
+    local curve1Button = display.newRoundedRect( display.contentCenterX, display.contentCenterY - 50, 150, 50, 12 )
+    local curve1Text = display.newText("Curve 1", curve1Button.x, curve1Button.y, "Arial", "20");
+    curve1Button.strokeWidth = 3
+    curve1Button:setFillColor( 0, 0.5, 1 )
+    curve1Button:setStrokeColor( 1, 1, 1 )
+    curve1Button:addEventListener("tap", curve1ButtonPress)
+
+    -- Button for curve 2
+    local curve2Button = display.newRoundedRect( display.contentCenterX, display.contentCenterY + 25, 150, 50, 12 )
+    local curve2Text = display.newText("Curve 2", curve2Button.x, curve2Button.y, "Arial", "20");
+    curve2Button.strokeWidth = 3
+    curve2Button:setFillColor( 0, 0.5, 1 )
+    curve2Button:setStrokeColor( 1, 1, 1 )
+    curve2Button:addEventListener("tap", curve2ButtonPress)
+
+    -- Button for curve 3
+    local curve3Button = display.newRoundedRect( display.contentCenterX, display.contentCenterY + 100, 150, 50, 12 )
+    local curve3Text = display.newText("Curve 3", curve3Button.x, curve3Button.y, "Arial", "20");
+    curve3Button.strokeWidth = 3
+    curve3Button:setFillColor( 0, 0.5, 1 )
+    curve3Button:setStrokeColor( 1, 1, 1 )
+
+    -- Button for curve 4
+    local curve4Button = display.newRoundedRect( display.contentCenterX, display.contentCenterY + 175, 150, 50, 12 )
+    local curve4Text = display.newText("Curve 4", curve4Button.x, curve4Button.y, "Arial", "20");
+    curve4Button.strokeWidth = 3
+    curve4Button:setFillColor( 0, 0.5, 1 )
+    curve4Button:setStrokeColor( 1, 1, 1 )
+
     
-    local curve2Text = display.newText("Curve 2", display.contentCenterX, display.contentCenterY + 50, "Arial", "20");
-    local curve3Text = display.newText("Curve 3", display.contentCenterX, display.contentCenterY + 100, "Arial", "20");
-    local curve4Text = display.newText("Curve 4", display.contentCenterX, display.contentCenterY + 150, "Arial", "20");
-
-    -- Test button
-    local testButton = display.newRoundedRect( display.contentCenterX, display.contentCenterY, 150, 50, 12 )
-    local curve1Text = display.newText("Curve 1", display.contentCenterX, display.contentCenterY, "Arial", "20");
-    testButton.strokeWidth = 3
-    testButton:setFillColor( 0, 0.5, 1 )
-    testButton:setStrokeColor( 1, 1, 1 )
-
-    testButton:addEventListener("tap", buttonPress)
 
     sceneGroup:insert(sceneText)
-    sceneGroup:insert(testButton)
+    sceneGroup:insert(curve1Button)
+    sceneGroup:insert(curve2Button)
+    sceneGroup:insert(curve3Button)
+    sceneGroup:insert(curve4Button)
     sceneGroup:insert(curve1Text)
     sceneGroup:insert(curve2Text)
     sceneGroup:insert(curve3Text)
     sceneGroup:insert(curve4Text)
     
-
-
 end
 
 -- show()

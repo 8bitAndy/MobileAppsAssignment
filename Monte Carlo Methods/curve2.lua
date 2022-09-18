@@ -16,92 +16,29 @@ local function optionsButtonPress( event )
     timer.performWithDelay(500)
     print("Options button pressed")
     composer.gotoScene("mainMenu");
-    composer.removeScene("curve1", true)
+    composer.removeScene("curve2", true)
 end
 
 local function backButtonPress( event )
     
     
     timer.performWithDelay(500)
-    print("Forward button pressed")
-    composer.gotoScene("curve2");
-    composer.removeScene("curve1", true)
+    print("Back button pressed")
+    composer.gotoScene("curve1");
+    composer.removeScene("curve2", true)
 end
 
 local function forwardButtonPress( event )
     
     
     timer.performWithDelay(500)
-    print("Back button pressed")
-    composer.gotoScene("curve2");
-    composer.removeScene("curve1", true)
-end
-
-function generatePoints()
-        
-
-        -- Input variables, fixed number of points is 10,000
-        local totalPoints = 10000;
-    
-        -- Variable to hold the x and y length and height of the graph
-        local graphSize = 5;
-
-        -- Area of Cartesian plane
-        local areaOfRectangle = graphSize * graphSize;
-    
-        -- The amount of points that get placed under the function curve
-        local pointsUnderCurve = 0;
-
-        -- The result of calculations to be put into the scene group within the create function
-        local results = {}
-        
-        
-    
-        -- If below the line then add one to points below the line
-        for i=1, 10000, 1 do
-
-            -- Generate a random floating point number for x
-            local x = math.abs(math.random(0, 5) + math.random());
-
-            -- Generate a random floating point number for y
-            local y = math.abs(math.random(0, 5) + math.random());
-            
-            -- A point is under line if it meets this condition
-            if x < y then
-                pointsUnderCurve = pointsUnderCurve + 1;
-            end
-        end
-
-        print("There are " .. pointsUnderCurve .. " points under the straight line");
-    
-        -- Calculate area under the curve
-        local temp = (pointsUnderCurve / totalPoints);
-        local areaUnderCurve =  temp * areaOfRectangle
-
-        -- Relative error of actual result
-        local relativeError = math.abs((areaUnderCurve - 12.5) / 12.5)
-    
-        print("Area under the curve is: " .. areaUnderCurve);
-        print("Relative error is: " .. relativeError);
-
-        print("adding to table")
-        -- Add area of curve into results table
-        table.insert(results, 0, areaUnderCurve);
-
-        -- Add points under curve into result table
-        table.insert(results, 1, pointsUnderCurve);
-
-        -- Add margin of error into table
-        table.insert(results, 2, relativeError);
-
-        print("added to table")
-
-        -- Send to create function
-        return results;
+    print("forward button pressed")
+    composer.gotoScene("curve1");
+    composer.removeScene("curve2", true)
 end
 
 
-function generatePoints3()
+function generatePoints2()
         
 
     -- Input variables, fixed number of points is 10,000
@@ -111,95 +48,61 @@ function generatePoints3()
     local graphSize = 4;
 
     -- Area of Cartesian plane
-    local areaOfRectangle = 7 ^ 2;
+    local areaOfRectangle = graphSize ^ 2;
 
     -- The amount of points that get placed under the function curve
     local pointsUnderCurve = 0;
 
-    local range = math.abs((-2 - 5))
+    -- table of results to be returned
+    local results2 = {}
     
     -- If below the line then add one to points below the line
     for i=1, 10000, 1 do
 
         -- Generate a random floating point number
-        local x = math.abs(math.random(-2, 5) + math.random());
+        local x = math.abs(math.random(0, 3) + math.random());
 
         -- Generate a random floating point number
-        local y = math.abs(math.random(-2, 5) + math.random());
-
-        --print("x is: " .. x)
-        --print("y is: " .. y)
+        local y = math.abs(math.random(-2, 1) + math.random());
 
         -- A point is under the curve if it meets this condition
-        if  x < ((-y ^ 3) + ((6 * (y ^ 2)) - y + 17)) and x > y then
+        if  x < (y ^ 2) then
             pointsUnderCurve = pointsUnderCurve + 1;
         end
     end
 
-    print("There are " .. pointsUnderCurve .. " points under the cubic");
-    pointsUnderCurve = pointsUnderCurve * 10
-    -- Calculate area under the curve
-    local temp = (pointsUnderCurve / totalPoints);
-    local areaUnderCurve =  temp * areaOfRectangle
-    areaUnderCurve = areaUnderCurve - 24
-
-    -- Relative error of actual result
-    local relativeError = math.abs((areaUnderCurve - 222.2500) / 222.2500)
-
-    print("Area under the curve is: " .. areaUnderCurve);
-    print("Relative error is: " .. relativeError);
-end
-
-function generatePoints4()
-        
-
-    -- Input variables, fixed number of points is 10,000
-    local totalPoints = 10000;
-
-    -- Variable to hold the x and y length and height of the graph
-    local graphSize = 4;
-
-    -- Area of Cartesian plane
-    local areaOfRectangle = 7 ^ 2;
-
-    -- The amount of points that get placed under the function curve
-    local pointsUnderCurve = 0;
-
-    local range = math.abs((-2 - 5))
-    
-    -- If below the line then add one to points below the line
-    for i=1, 10000, 1 do
-
-        -- Generate a random floating point number
-        local x = math.abs(math.random(0, 4) + math.random());
-
-        -- Generate a random floating point number
-        local y = math.abs(math.random(0, 4) + math.random());
-
-        --print("x is: " .. x)
-        --print("y is: " .. y)
-
-        -- A point is under the curve if it meets this condition
-        if  (((15 * (y ^ 3) + (21 * (x ^ 2)) + (41 * x) + (3 * (2.71828 ^ (-0.5 * x))))^(1/4))) then
-            pointsUnderCurve = pointsUnderCurve + 1;
-        end
-    end
-
-    -- 
-    pointsUnderCurve = pointsUnderCurve / 10 + 200
-    print("There are " .. pointsUnderCurve .. " points under the cubic");
+    print("There are " .. pointsUnderCurve .. " points under the quadratic");
     
     -- Calculate area under the curve
     local temp = (pointsUnderCurve / totalPoints);
     local areaUnderCurve =  temp * areaOfRectangle
 
     -- Relative error of actual result
-    local relativeError = math.abs((areaUnderCurve - 5.7674) / 5.7674)
+    local relativeError = (math.abs((areaUnderCurve - 5.3333) / 5.3333))
 
     print("Area under the curve is: " .. areaUnderCurve);
     print("Relative error is: " .. relativeError);
-end
 
+    print("adding to table")
+    -- Add area of curve into results table
+    table.insert(results2, 0, areaUnderCurve);
+
+    -- Add points under curve into result table
+    table.insert(results2, 1, pointsUnderCurve);
+
+    -- Add margin of error into table
+    table.insert(results2, 2, relativeError);
+
+    print("added to table")
+
+    print("values from table")
+    print(results2[0])
+    print(results2[1])
+    print(results2[2])
+
+    -- Send to create function
+    return results2;
+end
 
 -- create()
 function scene:create( event )
@@ -207,18 +110,37 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     print("in new scene \n")
 
-    --generatePoints();
-    print("---------------------------------------\n")
-    generatePoints3();
-    print("---------------------------------------\n")
-    generatePoints4();
-
     -- Creating line for graph boundaries
-    local yAxisLine = display.newLine( display.contentCenterX - 150, display.contentCenterY + 100 , display.contentCenterX - 150, display.contentCenterY - 200 )
+    local yAxisLine = display.newLine( display.contentCenterX, display.contentCenterY + 100 , display.contentCenterX, display.contentCenterY - 200 )
     local xAxisLine = display.newLine( display.contentCenterX - 150, display.contentCenterY + 100 , display.contentCenterX + 150, display.contentCenterY + 100 )
 
     -- Creating test line of function y = x
-    local functionLine = display.newLine( display.contentCenterX - 150, display.contentCenterY + 100 , display.contentCenterX + 150, display.contentCenterY - 200)
+    --local functionLine = display.newLine( display.contentCenterX - 120, display.contentCenterY - 150, display.contentCenterX + 120, display.contentCenterY - 150)
+    -- START PLACE( display.contentCenterX - 120, display.contentCenterY - 150)
+    -- END PLACE( display.contentCenterX + 120, display.contentCenterY - 150)
+
+    -- initial starting point of curve
+    local functionLine = display.newLine( display.contentCenterX, display.contentCenterY, display.contentCenterX + 0.0001, display.contentCenterY)
+
+    -- Create parabola positive side
+    for point = 0, 130, 0.01 do
+        functionLine:append(display.contentCenterX + point, display.contentCenterY - (((point^2) * 0.018) - 100))
+    end
+
+    -- initial starting point of curve
+    local functionLine2 = display.newLine( display.contentCenterX, display.contentCenterY, display.contentCenterX + 0.0001, display.contentCenterY)
+    -- Create curve on negative side
+    for point = 0, -130, -0.01 do
+        functionLine2:append(display.contentCenterX + point, display.contentCenterY - (((point^2) * 0.018) - 100))
+    end
+
+    -- Change the colour of the line
+    functionLine2:setStrokeColor( 1, 0, 0, 1)
+    -- Change the width of the axis line
+    functionLine2.strokeWidth = 3;
+    -- Add function line into scene group for composer scene handling
+    sceneGroup:insert(functionLine2);
+
     -- Change the colour of the line
     functionLine:setStrokeColor( 1, 0, 0, 1)
     -- Change the width of the axis line
@@ -270,11 +192,11 @@ function scene:create( event )
     sceneGroup:insert(forwardButtonText)
 
     -- title of graph
-    local sceneText = display.newText("Curve for y = x", display.contentCenterX, display.contentCenterY - 250, "Arial", "30");
+    local sceneText = display.newText("Curve for y = x^2", display.contentCenterX, display.contentCenterY - 250, "Arial", "30");
     sceneText:setTextColor(1, 0, 1);
 
     -- Get area under curve and amount of points and put into a table
-    local returnedResultsTable = generatePoints();
+    local returnedResultsTable = generatePoints2();
 
     -- Assign values from table into variables for use later
     local areaUnderCurve = returnedResultsTable[0];
@@ -285,7 +207,6 @@ function scene:create( event )
     local resultText = display.newText("The area under the curve is " .. areaUnderCurve, display.contentCenterX, display.contentCenterY + 150, "Arial", "16");
     local pointsUnderCurveText = display.newText("There are " .. pointsUnderCurve .. " points under the curve", display.contentCenterX, display.contentCenterY + 175, "Arial", "16");
     local marginOfErrorText = display.newText("The margin of error is " .. marginOfError, display.contentCenterX, display.contentCenterY + 200, "Arial", "16");
-    
 
     -- Put results and points under curve into scnee group
     sceneGroup:insert(resultText);
