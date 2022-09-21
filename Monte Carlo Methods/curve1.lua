@@ -12,11 +12,23 @@ local scene = composer.newScene()
 
 local function optionsButtonPress( event )
     
+    if optionsMenu.isVisible == true then
+        optionsMenu.isVisible = false;
+    else if optionsMenu.isVisible == false then
+        optionsMenu.isVisible = true;
+        end
+
+    end
+end
+
+local function backToMenuButtonPress( event )
+    
     
     timer.performWithDelay(500)
-    print("Options button pressed")
+    print("back to menu button pressed")
     composer.gotoScene("mainMenu");
     composer.removeScene("curve1", true)
+    optionsMenu.isVisible = false;
 end
 
 local function backButtonPress( event )
@@ -26,6 +38,7 @@ local function backButtonPress( event )
     print("Forward button pressed")
     composer.gotoScene("curve2");
     composer.removeScene("curve1", true)
+    optionsMenu.isVisible = false;
 end
 
 local function forwardButtonPress( event )
@@ -35,13 +48,14 @@ local function forwardButtonPress( event )
     print("Back button pressed")
     composer.gotoScene("curve2");
     composer.removeScene("curve1", true)
+    optionsMenu.isVisible = false;
 end
 
-function generatePoints()
+function generatePoints(numberOfPoints)
         
 
         -- Input variables, fixed number of points is 10,000
-        local totalPoints = 10000;
+        local totalPoints = numberOfPoints;
     
         -- Variable to hold the x and y length and height of the graph
         local graphSize = 5;
@@ -58,7 +72,7 @@ function generatePoints()
         
     
         -- If below the line then add one to points below the line
-        for i=1, 10000, 1 do
+        for i=1, totalPoints, 1 do
 
             -- Generate a random floating point number for x
             local x = math.abs(math.random(0, 5) + math.random());
@@ -84,7 +98,7 @@ function generatePoints()
         print("Area under the curve is: " .. areaUnderCurve);
         print("Relative error is: " .. relativeError);
 
-        print("adding to table")
+        --print("adding to table")
         -- Add area of curve into results table
         table.insert(results, 0, areaUnderCurve);
 
@@ -94,54 +108,66 @@ function generatePoints()
         -- Add margin of error into table
         table.insert(results, 2, relativeError);
 
-        print("added to table")
+        --print("added to table")
 
         -- Send to create function
         return results;
 end
 
 
-function generatePoints3()
+-- Trying to get curve 3 working
+function generatePoints3(numberOfPoints)
         
 
     -- Input variables, fixed number of points is 10,000
-    local totalPoints = 10000;
+    local totalPoints = numberOfPoints;
 
-    -- Variable to hold the x and y length and height of the graph
-    local graphSize = 4;
+    -- Calculate the domain of the graph by using the x upper and lower limit
+    local minimumX = -2;
+    local maximumX = 5;
+    local graphDomain = math.abs(minimumX  - maximumX);
+    -- The highest and lowest y value used for limits
+    local minY = 0;
+    local maxY = 0;
+    
+    -- This detects the maximum value that y will take within the x limits of the curve
+    for currentX = minimumX, maximumX, 0.001 do
+        local currentY = (-(currentX^3) + (6 * (currentX ^ 2)) - currentX + 17)
+        if currentY > maxY then
+            maxY = currentY 
+        end
+    end
 
-    -- Area of Cartesian plane
-    local areaOfRectangle = 7 ^ 2;
+    print("This is the max y picked: " .. maxY)
 
     -- The amount of points that get placed under the function curve
     local pointsUnderCurve = 0;
 
-    local range = math.abs((-2 - 5))
+    -- Area of Cartesian plane
+    local areaOfRectangle = graphDomain * maxY;
     
     -- If below the line then add one to points below the line
-    for i=1, 10000, 1 do
+    for i=1, totalPoints, 1 do
 
         -- Generate a random floating point number
-        local x = math.abs(math.random(-2, 5) + math.random());
+        local x = math.abs(math.random(minimumX, maximumX - 1));
 
         -- Generate a random floating point number
-        local y = math.abs(math.random(-2, 5) + math.random());
 
-        --print("x is: " .. x)
-        --print("y is: " .. y)
+        local y = minimumX + (maxY * math.random())
 
         -- A point is under the curve if it meets this condition
-        if  x < ((-y ^ 3) + ((6 * (y ^ 2)) - y + 17)) and x > y then
+        if  y <= (-(x^3) + (6 * (x ^ 2)) - x + 17) then
             pointsUnderCurve = pointsUnderCurve + 1;
         end
     end
 
-    print("There are " .. pointsUnderCurve .. " points under the cubic");
-    pointsUnderCurve = pointsUnderCurve * 10
+    
+
+    print("\nThere are " .. pointsUnderCurve .. " points under the cubic");
     -- Calculate area under the curve
     local temp = (pointsUnderCurve / totalPoints);
     local areaUnderCurve =  temp * areaOfRectangle
-    areaUnderCurve = areaUnderCurve - 24
 
     -- Relative error of actual result
     local relativeError = math.abs((areaUnderCurve - 222.2500) / 222.2500)
@@ -150,45 +176,61 @@ function generatePoints3()
     print("Relative error is: " .. relativeError);
 end
 
-function generatePoints4()
+
+
+
+
+-- Trying to get curve 4 working
+function generatePoints4(numberOfPoints)
         
 
     -- Input variables, fixed number of points is 10,000
-    local totalPoints = 10000;
+    local totalPoints = numberOfPoints;
 
-    -- Variable to hold the x and y length and height of the graph
-    local graphSize = 4;
+    -- Calculate the domain of the graph by using the x upper and lower limit
+    local minimumX = 0;
+    local maximumX = 4;
+    local graphDomain = math.abs(minimumX - maximumX);
+    -- The highest and lowest y value used for limits
+    local minY = 0;
+    local maxY = 0;
 
-    -- Area of Cartesian plane
-    local areaOfRectangle = 7 ^ 2;
+    -- Eulers number, used for creating the curve below
+    local e = 2.71828;
+    
+    -- This detects the maximum value that y will take within the x limits of the curve
+    for currentX = minimumX, maximumX, 1 do
+        local currentY = ((15 * currentX ^ 3) + (21 * currentX ^ 2) + (41 * currentX) + 3) ^ (1/4)  * (e ^ (-0.5 * currentX))
+        if currentY > maxY then
+            maxY = currentY 
+        end
+    end
+
+    print("This is the max y picked: " .. maxY)
 
     -- The amount of points that get placed under the function curve
     local pointsUnderCurve = 0;
 
-    local range = math.abs((-2 - 5))
+    -- Area of Cartesian plane
+    local areaOfRectangle = graphDomain * maxY;
     
     -- If below the line then add one to points below the line
-    for i=1, 10000, 1 do
+    for i=1, totalPoints, 1 do
 
         -- Generate a random floating point number
-        local x = math.abs(math.random(0, 4) + math.random());
+        local x = math.abs(math.random(minimumX, maximumX - 1) + math.random());
 
         -- Generate a random floating point number
-        local y = math.abs(math.random(0, 4) + math.random());
-
-        --print("x is: " .. x)
-        --print("y is: " .. y)
+        local y = minimumX + (maxY * math.random())
 
         -- A point is under the curve if it meets this condition
-        if  (((15 * (y ^ 3) + (21 * (x ^ 2)) + (41 * x) + (3 * (2.71828 ^ (-0.5 * x))))^(1/4))) then
+        if  y < ((15 * x ^ 3) + (21 * x ^ 2) + (41 * x) + 3) ^ (1/4)  * (e ^ (-0.5 * x)) then
             pointsUnderCurve = pointsUnderCurve + 1;
         end
     end
 
-    -- 
-    pointsUnderCurve = pointsUnderCurve / 10 + 200
-    print("There are " .. pointsUnderCurve .. " points under the cubic");
     
+    print("\nThere are " .. pointsUnderCurve .. " points under curve 4");
     -- Calculate area under the curve
     local temp = (pointsUnderCurve / totalPoints);
     local areaUnderCurve =  temp * areaOfRectangle
@@ -204,14 +246,16 @@ end
 -- create()
 function scene:create( event )
     local sceneGroup = self.view
+
+    -- Create a new group for the options menu objects
+    optionsMenu = display.newGroup()
+
     -- Code here runs when the scene is first created but has not yet appeared on screen
     print("in new scene \n")
 
     --generatePoints();
-    print("---------------------------------------\n")
-    generatePoints3();
-    print("---------------------------------------\n")
-    generatePoints4();
+    generatePoints3(10000);
+    generatePoints4(10000);
 
     -- Creating line for graph boundaries
     local yAxisLine = display.newLine( display.contentCenterX - 150, display.contentCenterY + 100 , display.contentCenterX - 150, display.contentCenterY - 200 )
@@ -274,7 +318,17 @@ function scene:create( event )
     sceneText:setTextColor(1, 0, 1);
 
     -- Get area under curve and amount of points and put into a table
-    local returnedResultsTable = generatePoints();
+    local returnedResultsTable = generatePoints(10000);
+
+    --[[] local powerOfTen = 10;
+    -- Loop through powers of ten for week 9 deliverable
+    for power = 1, 7, 1 do
+        print("\n---------------------")
+        print("Using power of " .. powerOfTen)
+        generatePoints3(powerOfTen)
+        powerOfTen = powerOfTen * 10;
+    end
+    --]]
 
     -- Assign values from table into variables for use later
     local areaUnderCurve = returnedResultsTable[0];
@@ -305,6 +359,31 @@ function scene:create( event )
     sceneGroup:insert(optionsButtonText)
     sceneGroup:insert(yAxisLine)
     sceneGroup:insert(xAxisLine)
+
+    -- Popup options menu code
+    local optionsMenuBackground = display.newRoundedRect( display.contentCenterX, display.contentCenterY - 25 , 250, 400, 10 )
+    optionsMenuBackground.strokeWidth = 5
+    optionsMenuBackground:setFillColor( 1, 1, 1 , 0.5)
+    optionsMenuBackground:setStrokeColor( 1, 1, 1 )
+    local optionsMenuText = display.newText("Options menu", optionsMenuBackground.x, optionsMenuBackground.y - 160, "Arial", "30");
+    optionsMenuText:setTextColor(0, 0.2, 1);
+
+    local backToMenuButton = display.newRoundedRect( optionsMenuBackground.x, optionsMenuBackground.y - 80 , 150, 50, 10 )
+    backToMenuButton.strokeWidth = 3
+    backToMenuButton:setFillColor( 0, 1, 0 , 0.6)
+    backToMenuButton:setStrokeColor( 1, 1, 1 )
+    backToMenuButton:addEventListener("tap", backToMenuButtonPress);
+    local backToMenuButtonText = display.newText("back to menu", backToMenuButton.x, backToMenuButton.y, "Arial", "20");
+    backToMenuButtonText:setTextColor(1, 1, 1);
+
+    -- Add options menu objects to display group
+    optionsMenu:insert(optionsMenuBackground);
+    optionsMenu:insert(optionsMenuText);
+
+    optionsMenu:insert(backToMenuButton);
+    optionsMenu:insert(backToMenuButtonText);
+    optionsMenu.isVisible = false;
+
 
     
 end
