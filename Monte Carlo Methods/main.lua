@@ -5,6 +5,8 @@
 -----------------------------------------------------------------------------------------
 
 -- Start of main
+-- Fix issues with gray bar on android devices
+native.setProperty("androidSystemUiVisibility", "immersiveSticky");
 
 -- Initialization of the composer
 local composer = require( "composer" )
@@ -13,3 +15,5 @@ local composer = require( "composer" )
 
 -- Change scene to first curve
 composer.gotoScene("mainMenu")
+
+

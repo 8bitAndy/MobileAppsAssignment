@@ -1,0 +1,7 @@
+{
+    "Lua.diagnostics.globals": [
+        "pointCount",
+        "optionsMenu2",
+        "appInit"
+    ]
+}
